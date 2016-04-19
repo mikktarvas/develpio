@@ -1,0 +1,12 @@
+{
+    "name": "mikk/hmmm.io",
+    "authors": [
+        {
+            "name": "mikktarvas",
+            "email": "mikk.tarvas@gmail.com"
+        }
+    ],
+    "require": {
+        "phroute/phroute": "^2.1"
+    }
+}
