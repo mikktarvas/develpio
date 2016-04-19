@@ -1,5 +1,5 @@
 ### Requirements
-* PHP 5.6+
+* PHP 5.6+ with PGSQL driver
 * Composer 1.0+
 * VirtualBox 5+
 * Vagrant 1.7+
