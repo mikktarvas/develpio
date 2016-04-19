@@ -7,5 +7,6 @@
 
 ### Getting started
 * install php deps via $ composer install
+* spin up virtual machine $ vagrant up
 
 Mikk Tarvas
