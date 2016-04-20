@@ -1,10 +1,14 @@
 <?php
 
+/**
+ * User: Mikk Tarvas
+ * Date: 20/04/16
+ */
+error_reporting(E_ALL | E_STRICT);
+
 #########################
 # Bootstrap application #
 #########################
-
-error_reporting(E_ALL | E_STRICT);
 
 require "./vendor/autoload.php";
 
