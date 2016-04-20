@@ -12,7 +12,7 @@ require __DIR__ . "/../controller.php";
 $method = $_SERVER["REQUEST_METHOD"];
 $path = $_SERVER["REQUEST_URI"];
 
-if (preg_match("/^\\/?static\\/.+$/", $path)) {
+if (preg_match("/^\\/?static\\/.+$/", $path) || $path === "/favicon.ico") {
     //access static resource, do not re-route
     return false;
 }
