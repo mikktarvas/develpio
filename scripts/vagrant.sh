@@ -5,7 +5,7 @@ APP_DB_USER=dbuser
 APP_DB_PASS=dbpassword
 
 # Edit the following to change the name of the database that is created (defaults to the user name)
-APP_DB_NAME=hmmmio
+APP_DB_NAME=develpio
 
 # Edit the following to change the version of PostgreSQL that is installed
 PG_VERSION=9.4
