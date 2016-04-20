@@ -1,9 +1,11 @@
 <?php
 
 use Phroute\Phroute\RouteCollector;
+use app\Template as Template;
 
 $router = new RouteCollector();
 
 $router->get("/", function() {
-    return "Home Page";
+    $template = new Template("home");
+    return $template->render();
 });

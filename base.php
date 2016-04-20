@@ -8,6 +8,7 @@ error_reporting(E_ALL | E_STRICT);
 
 require "./vendor/autoload.php";
 
+define("ROOT_DIR", __DIR__);
 define("CONF_FILE_PATH", __DIR__ . "/conf.ini");
 
 $started = session_start();
