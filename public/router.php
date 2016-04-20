@@ -4,7 +4,9 @@
  * User: Mikk Tarvas
  * Date: 20/04/16
  */
-use Phroute\Phroute\Dispatcher;
+use Phroute\Phroute\Dispatcher as Dispatcher;
+use Phroute\Phroute\Exception\HttpRouteNotFoundException as HttpRouteNotFoundException;
+use app\Template as Template;
 
 require __DIR__ . "/../base.php";
 require __DIR__ . "/../controller.php";
@@ -18,4 +20,9 @@ if (preg_match("/^\\/?static\\/.+$/", $path) || $path === "/favicon.ico") {
 }
 
 $dispatcher = new Dispatcher($router->getData());
-echo $dispatcher->dispatch($method, $path);
+try {
+    echo $dispatcher->dispatch($method, $path);
+    return true;
+} catch (HttpRouteNotFoundException $ex) {
+    return false;
+}

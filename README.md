@@ -9,7 +9,7 @@
 * spin up virtual machine $ vagrant up
 * install php deps via $ composer install
 * install front-end deps $ bower install
-* start PHP embedded server $ php -S localhost:8000 -t public/ public/index.php
+* start PHP embedded server $ php -S localhost:8000 -t public/ public/router.php
 * open in browser: http://localhost:8000
 
 Mikk Tarvas

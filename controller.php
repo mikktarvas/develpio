@@ -17,3 +17,8 @@ $router->get("/", function() {
     $template = new Template("home");
     return $template->render();
 });
+
+$router->get("/home", function() {
+    $template = new Template("home");
+    return $template->render();
+});
