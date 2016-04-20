@@ -9,6 +9,10 @@ use app\Template as Template;
 
 $router = new RouteCollector();
 
+#########
+# Pages #
+#########
+
 $router->get("/", function() {
     $template = new Template("home");
     return $template->render();
