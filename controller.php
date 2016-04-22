@@ -5,7 +5,7 @@
  * Date: 20/04/16
  */
 use Phroute\Phroute\RouteCollector;
-use app\Template as Template;
+use app\Template;
 
 $router = new RouteCollector();
 
@@ -20,5 +20,10 @@ $router->get("/", function() {
 
 $router->get("/home", function() {
     $template = new Template("home");
+    return $template->render();
+});
+
+$router->get("/ask", function() {
+    $template = new Template("ask");
     return $template->render();
 });

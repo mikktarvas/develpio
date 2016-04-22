@@ -13,4 +13,7 @@
 * start PHP embedded server $ php -S localhost:8000 -t public/ public/router.php
 * open in browser: http://localhost:8000
 
+### Running automated tests
+* $ ./phpunit --bootstrap test_base.php tests
+
 Mikk Tarvas
