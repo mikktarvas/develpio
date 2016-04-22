@@ -27,3 +27,17 @@ $router->get("/ask", function() {
     $template = new Template("ask");
     return $template->render();
 });
+
+$router->get("/login", function() {
+
+    $isLoggedIn = isLoggedIn();
+    if ($isLoggedIn) {
+        //already logged in, redirect to home
+        header("Location: /home");
+        exit();
+    }
+
+    $template = new Template("login");
+    $template->set("is_login_page", true);
+    return $template->render();
+});

@@ -9,6 +9,7 @@ error_reporting(E_ALL | E_STRICT);
 use Doctrine\Common\Collections\ArrayCollection;
 use app\ConnectionFactory;
 use app\Configuration;
+use Assert\Assertion;
 
 #########################
 # Bootstrap application #
@@ -85,4 +86,38 @@ function getSession() {
 function isLoggedIn() {
     $session = getSession();
     return $session["is_logged_in"] === true;
+}
+
+function hashPassword($password) {
+    Assertion::string($password);
+    return password_hash($password, PASSWORD_DEFAULT);
+}
+
+function verifyPassword($password, $hash) {
+    Assertion::string($password);
+    Assertion::string($hash);
+    return password_verify($password, $hash);
+}
+
+function randomString($length) {
+    $bytes = ($length >> 1) + 1;
+    $hex = bin2hex(openssl_random_pseudo_bytes($bytes));
+    return substr($hex, 0, $length);
+}
+
+function regenerateCsrfToken() {
+    $_SESSION["csrf"] = randomString(32);
+}
+
+function generateCsrfTokenIfNeeded() {
+    $session = getSession();
+    if ($session["csrf"] === null) {
+        regenerateCsrfToken();
+    }
+}
+
+function getCsrfToken() {
+    generateCsrfTokenIfNeeded();
+    $session = getSession();
+    return $session["csrf"];
 }

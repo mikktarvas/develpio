@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class CoreSchema extends AbstractMigration {
+class CreateCoreSchema extends AbstractMigration {
 
     public function change() {
         $this->execute("
