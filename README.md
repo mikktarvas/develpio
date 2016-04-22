@@ -6,14 +6,14 @@
 * Bower 1.7+
 
 ### Getting started
-* spin up virtual machine $ vagrant up
-* install php deps via $ composer install
-* install front-end deps $ bower install
-* apply database migrations $ ./phinx migrate
-* start PHP embedded server $ php -S localhost:8000 -t public/ public/router.php
+* spin up virtual machine ```$ vagrant up```
+* install php deps via ```$ composer install```
+* install front-end deps ```$ bower install```
+* apply database migrations ```$ ./phinx migrate```
+* start PHP embedded server ```$ php -S localhost:8000 -t public/ public/router.php```
 * open in browser: http://localhost:8000
 
 ### Running automated tests
-* $ ./phpunit --bootstrap test_base.php tests
+* ```$ ./scripts/test.sh```
 
 Mikk Tarvas
