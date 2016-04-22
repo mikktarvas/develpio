@@ -7,8 +7,8 @@
 
 namespace app;
 
-use \Assert\Assertion as Assertion;
-use \Smarty as Smarty;
+use Assert\Assertion;
+use Smarty;
 
 class Template {
 
@@ -23,7 +23,7 @@ class Template {
 
     protected function getSmartyInstance() {
         $smarty = new Smarty();
-        $tempDir = ROOT_DIR . "/tmp/";
+        $tempDir = sys_get_temp_dir();
         $smarty->setTemplateDir(ROOT_DIR . "/tpl/");
         $smarty->setCacheDir($tempDir);
         $smarty->setCompileDir($tempDir);
@@ -36,7 +36,12 @@ class Template {
     }
 
     public function render() {
+        $this->setCommonVariables();
         return $this->smarty->display($this->name . ".tpl");
+    }
+
+    private function setCommonVariables() {
+        $this->set("is_logged_in", isLoggedIn());
     }
 
 }
