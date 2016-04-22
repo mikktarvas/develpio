@@ -6,6 +6,10 @@
  */
 error_reporting(E_ALL | E_STRICT);
 
+use Doctrine\Common\Collections\ArrayCollection;
+use app\ConnectionFactory;
+use app\Configuration;
+
 #########################
 # Bootstrap application #
 #########################
@@ -36,19 +40,49 @@ if (!$registered) {
 ##########################
 
 function readConfiguration() {
-    return app\Configuration::read();
+    return Configuration::read();
 }
 
 function beginTransaction() {
-    app\ConnectionFactory::getConnection()->beginTransaction();
+    ConnectionFactory::getConnection()->beginTransaction();
 }
 
 function rollback($toReturn = null) {
-    app\ConnectionFactory::getConnection()->rollBack();
+    ConnectionFactory::getConnection()->rollBack();
     return $toReturn;
 }
 
 function commit($toReturn = null) {
-    app\ConnectionFactory::getConnection()->commit();
+    ConnectionFactory::getConnection()->commit();
     return $toReturn;
+}
+
+function getConnection() {
+    return ConnectionFactory::getConnection();
+}
+
+function getRequestData() {
+    $merged = array_merge($_GET, $_POST);
+    return new ArrayCollection($merged);
+}
+
+function getRestData() {
+    $asString = file_get_contents("php://input");
+    if ($asString === false) {
+        throw new Exception("unable to read request data");
+    }
+    $parsed = json_decode($asString);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception("unable to parse json");
+    }
+    return new ArrayCollection($parsed);
+}
+
+function getSession() {
+    return new ArrayCollection($_SESSION);
+}
+
+function isLoggedIn() {
+    $session = getSession();
+    return $session["is_logged_in"] === true;
 }
