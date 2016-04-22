@@ -4,9 +4,8 @@
  * User: Mikk Tarvas
  * Date: 20/04/16
  */
-use Phroute\Phroute\Dispatcher as Dispatcher;
-use Phroute\Phroute\Exception\HttpRouteNotFoundException as HttpRouteNotFoundException;
-use app\Template as Template;
+use Phroute\Phroute\Dispatcher;
+use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 
 require __DIR__ . "/../base.php";
 require __DIR__ . "/../controller.php";
