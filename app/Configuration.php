@@ -7,7 +7,7 @@
 
 namespace app;
 
-use \Exception as Exception;
+use Exception;
 
 class Configuration {
 

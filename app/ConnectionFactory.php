@@ -7,14 +7,13 @@
 
 namespace app;
 
-use \PDO as PDO;
-use \Exception as Exception;
+use PDO;
+use Exception;
 
 class ConnectionFactory {
 
     private static $DEFAULT_OPTIONS = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_AUTOCOMMIT => false,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
     ];
     private static $connection = null;
