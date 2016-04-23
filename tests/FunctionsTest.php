@@ -2,6 +2,8 @@
 
 namespace tests;
 
+use tests\BaseTest;
+
 /**
  * User: Mikk Tarvas
  * Date: 23/04/16

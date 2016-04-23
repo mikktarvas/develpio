@@ -1,14 +1,13 @@
 <?php
 
-/**
- * User: Mikk Tarvas
- * Date: 20/04/16
- */
-
 namespace app;
 
 use Exception;
 
+/**
+ * User: Mikk Tarvas
+ * Date: 20/04/16
+ */
 class Configuration {
 
     private static $parsed = null;

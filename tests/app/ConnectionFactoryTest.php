@@ -1,9 +1,10 @@
 <?php
 
-namespace tests;
+namespace tests\app;
 
 use app\ConnectionFactory;
 use PDO;
+use tests\BaseTest;
 
 /**
  * User: Mikk Tarvas

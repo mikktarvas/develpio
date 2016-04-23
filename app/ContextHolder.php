@@ -1,12 +1,11 @@
 <?php
 
+namespace app;
+
 /**
  * User: Mikk Tarvas
  * Date: 23/04/16
  */
-
-namespace app;
-
 class ContextHolder {
 
     private static $context = null;

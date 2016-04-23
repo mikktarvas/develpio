@@ -1,8 +1,9 @@
 <?php
 
-namespace tests;
+namespace tests\app\util;
 
 use app\util\Lazy;
+use tests\BaseTest;
 
 /**
  * User: Mikk Tarvas

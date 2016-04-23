@@ -1,8 +1,9 @@
 <?php
 
-namespace tests;
+namespace tests\app;
 
 use app\ContextHolder;
+use tests\BaseTest;
 
 /**
  * User: Mikk Tarvas

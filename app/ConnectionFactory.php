@@ -1,15 +1,14 @@
 <?php
 
-/**
- * User: Mikk Tarvas
- * Date: 20/04/16
- */
-
 namespace app;
 
 use PDO;
 use Exception;
 
+/**
+ * User: Mikk Tarvas
+ * Date: 20/04/16
+ */
 class ConnectionFactory {
 
     private static $DEFAULT_OPTIONS = [

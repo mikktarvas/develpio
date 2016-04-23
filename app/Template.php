@@ -1,15 +1,14 @@
 <?php
 
-/**
- * User: Mikk Tarvas
- * Date: 20/04/16
- */
-
 namespace app;
 
 use Assert\Assertion;
 use Smarty;
 
+/**
+ * User: Mikk Tarvas
+ * Date: 20/04/16
+ */
 class Template {
 
     private $name;
