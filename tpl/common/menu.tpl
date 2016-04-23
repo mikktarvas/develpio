@@ -17,7 +17,13 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {if $is_logged_in}
-                    <li><a href="/logout">Logi välja <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+                    <form style="display: none;" id="logout-form" method="POST" action="/logout">
+                        {include file='common/csrf_input.tpl'}
+                    </form>
+                    <li>
+                        <a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();
+                                return false;">Logi välja <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    </li>
                 {elseif !$is_login_page}
                     <li><a href="/login">Logi sisse <i class="fa fa-sign-in" aria-hidden="true"></i></a></li>
                 {/if}

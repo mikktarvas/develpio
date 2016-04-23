@@ -21,6 +21,7 @@ if (preg_match("/^\\/?static\\/.+$/", $path) || $path === "/favicon.ico") {
 $dispatcher = new Dispatcher($router->getData());
 try {
     echo $dispatcher->dispatch($method, $path);
+    require __DIR__ . "/../sandbox.php";
     return true;
 } catch (HttpRouteNotFoundException $ex) {
     return false;

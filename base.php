@@ -121,3 +121,8 @@ function getCsrfToken() {
     $session = getSession();
     return $session["csrf"];
 }
+
+function checkCsrfToken(ArrayCollection $data) {
+    $token = $data["csrf_token"];
+    return $token !== null && $token === getCsrfToken();
+}

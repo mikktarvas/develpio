@@ -9,6 +9,21 @@ use app\Template;
 
 $router = new RouteCollector();
 
+###########
+# Filters #
+###########
+
+$router->filter("csrf", function() {
+    $data = getRequestData();
+    $csrfIsValid = checkCsrfToken($data);
+
+    if (!$csrfIsValid) {
+        throw new Exception("csrf token mismatch");
+    }
+
+    return null;
+});
+
 #########
 # Pages #
 #########
@@ -39,5 +54,23 @@ $router->get("/login", function() {
 
     $template = new Template("login");
     $template->set("is_login_page", true);
+    $template->set("login_failed", false);
+    $template->set("email", "");
     return $template->render();
 });
+
+$router->post("/login", function() {
+    
+    $data = getRequestData();
+    
+    $template = new Template("login");
+    $template->set("is_login_page", true);
+    $template->set("login_failed", true);
+    $template->set("email", $data["email"]);
+    return $template->render();
+}, ["before" => "csrf"]);
+
+
+$router->post("/logout", function() {
+    
+}, ["before" => "csrf"]);

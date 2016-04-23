@@ -10,11 +10,18 @@
         {include file='common/menu.tpl'}
         <div class="container">
 
-            <form action="/api/login" method="POST">
-                <input type="hidden" name="csrf_token" value="{$csrf_token}"/>
+            <form action="/login" method="POST" class="{if $login_failed}animated shake{/if}">
+                {include file='common/csrf_input.tpl'}
+                {if $login_failed}
+                    <div class="form-group">
+                        <div class="bs-callout bs-callout-danger">
+                            <h3>Sisse logimine ebaõnnestus</h3>
+                        </div>
+                    </div>
+                {/if}
                 <div class="form-group">
                     <label for="login-email">Email</label>
-                    <input name="email" type="email" class="form-control" id="login-email" placeholder="Email">
+                    <input name="email" type="text" class="form-control" id="login-email" placeholder="Email" value="{$email}">
                 </div>
                 <div class="form-group">
                     <label for="login-password">Parool</label>

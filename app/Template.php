@@ -28,6 +28,7 @@ class Template {
         $smarty->setTemplateDir(ROOT_DIR . "/tpl/");
         $smarty->setCacheDir($tempDir);
         $smarty->setCompileDir($tempDir);
+        $smarty->setEscapeHtml(true);
         return $smarty;
     }
 
