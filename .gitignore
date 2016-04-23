@@ -1,3 +1,4 @@
 /.vagrant/
 /vendor/
 /public/static/libs/
+/sandbox.php

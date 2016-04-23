@@ -60,9 +60,9 @@ $router->get("/login", function() {
 });
 
 $router->post("/login", function() {
-    
+
     $data = getRequestData();
-    
+
     $template = new Template("login");
     $template->set("is_login_page", true);
     $template->set("login_failed", true);

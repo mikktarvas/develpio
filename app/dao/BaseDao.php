@@ -10,12 +10,22 @@ use PDO;
  */
 abstract class BaseDao {
 
+    private $pdo;
+
     /**
      * 
      * @return PDO
      */
-    protected function getPdo() {
-        return getConnection();
+    function getPdo() {
+        return $this->pdo;
+    }
+
+    /**
+     * 
+     * @param PDO $pdo
+     */
+    function setPdo($pdo) {
+        $this->pdo = $pdo;
     }
 
 }
