@@ -10,6 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use app\ConnectionFactory;
 use app\Configuration;
 use Assert\Assertion;
+use app\ContextHolder;
+use app\ErrorTranslator;
 
 #########################
 # Bootstrap application #
@@ -19,6 +21,7 @@ require "./vendor/autoload.php";
 
 define("ROOT_DIR", __DIR__);
 define("CONF_FILE_PATH", __DIR__ . "/conf.ini");
+define("ERROR_FILE_PATH", __DIR__ . "/errors.ini");
 
 $started = session_start();
 if (!$started) {
@@ -60,6 +63,10 @@ function commit($toReturn = null) {
 
 function getConnection() {
     return ConnectionFactory::getConnection();
+}
+
+function getCtx() {
+    return ContextHolder::getContext();
 }
 
 function getRequestData() {
@@ -125,4 +132,11 @@ function getCsrfToken() {
 function checkCsrfToken(ArrayCollection $data) {
     $token = $data["csrf_token"];
     return $token !== null && $token === getCsrfToken();
+}
+
+function translateErrors($codes) {
+    if ($codes instanceof ArrayCollection) {
+        $codes = $codes->toArray();
+    }
+    return ErrorTranslator::translate($codes);
 }

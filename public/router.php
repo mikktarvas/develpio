@@ -6,6 +6,7 @@
  */
 use Phroute\Phroute\Dispatcher;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
+use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
 
 require __DIR__ . "/../base.php";
 require __DIR__ . "/../controller.php";
@@ -25,4 +26,8 @@ try {
     return true;
 } catch (HttpRouteNotFoundException $ex) {
     return false;
+} catch (HttpMethodNotAllowedException $ex) {
+    return false;
 }
+
+//TODO: handle csrf exception

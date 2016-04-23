@@ -6,8 +6,11 @@ class CreateUsersTable extends AbstractMigration {
 
     public function change() {
         $this->execute("
+            
+            CREATE SEQUENCE core.users_seq START 1000;
+
             CREATE TABLE core.users (
-                users_id BIGINT,
+                users_id BIGINT DEFAULT nextval('core.users_seq'),
                 email VARCHAR(255),
                 password VARCHAR(255),
                 active BOOLEAN DEFAULT TRUE,
@@ -20,6 +23,7 @@ class CreateUsersTable extends AbstractMigration {
             CREATE TRIGGER users_meta_trigger 
             BEFORE INSERT OR UPDATE ON core.users 
             FOR EACH ROW EXECUTE PROCEDURE core.update_meta_fields();
+            
         ");
     }
 

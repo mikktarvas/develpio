@@ -14,7 +14,7 @@ class Configuration {
 
     public static function read() {
         if (self::$parsed === null) {
-            $path = \CONF_FILE_PATH;
+            $path = CONF_FILE_PATH;
             $parsed = parse_ini_file($path);
             if ($parsed === false) {
                 throw new Exception("unable to read configuration file: $path");

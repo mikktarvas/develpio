@@ -2,6 +2,8 @@
 
 namespace app\util;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * User: Mikk Tarvas
  * Date: 23/04/16
@@ -16,7 +18,7 @@ class Result {
      * @param mixed $data
      * @return \app\util\Result
      */
-    public static function success($data) {
+    public static function success($data = null) {
         $result = new Result();
         $result->data = $data;
         $result->errors = null;
@@ -31,7 +33,7 @@ class Result {
     public static function error($errors) {
         $result = new Result();
         $result->data = null;
-        $result->errors = is_array($errors) ? $errors : [$errors];
+        $result->errors = new ArrayCollection(is_array($errors) ? $errors : [$errors]);
         return $result;
     }
 
@@ -39,6 +41,10 @@ class Result {
         return $this->data;
     }
 
+    /**
+     * 
+     * @return ArrayCollection
+     */
     function getErrors() {
         return $this->errors;
     }

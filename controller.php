@@ -6,8 +6,10 @@
  */
 use Phroute\Phroute\RouteCollector;
 use app\Template;
+use app\CsrfMismatchException;
 
 $router = new RouteCollector();
+$ctx = getCtx();
 
 ###########
 # Filters #
@@ -18,7 +20,7 @@ $router->filter("csrf", function() {
     $csrfIsValid = checkCsrfToken($data);
 
     if (!$csrfIsValid) {
-        throw new Exception("csrf token mismatch");
+        throw new CsrfMismatchException("csrf token mismatch");
     }
 
     return null;
@@ -43,7 +45,7 @@ $router->get("/ask", function() {
     return $template->render();
 });
 
-$router->get("/login", function() {
+$router->get("/login/{email}?", function($email = null) {
 
     $isLoggedIn = isLoggedIn();
     if ($isLoggedIn) {
@@ -55,11 +57,11 @@ $router->get("/login", function() {
     $template = new Template("login");
     $template->set("is_login_page", true);
     $template->set("login_failed", false);
-    $template->set("email", "");
+    $template->set("email", urldecode($email));
     return $template->render();
 });
 
-$router->post("/login", function() {
+$router->post("/login/{email}?", function() {
 
     $data = getRequestData();
 
@@ -70,6 +72,41 @@ $router->post("/login", function() {
     return $template->render();
 }, ["before" => "csrf"]);
 
+$router->get("/register", function() {
+
+    $isLoggedIn = isLoggedIn();
+    if ($isLoggedIn) {
+        //already logged in, redirect to home
+        header("Location: /home");
+        exit();
+    }
+
+    $template = new Template("register");
+    $template->set("email", "");
+    $template->set("registration_completed", false);
+    $template->set("errors", []);
+    return $template->render();
+});
+
+$router->post("/register", function() use (&$ctx) {
+
+    $isLoggedIn = isLoggedIn();
+    if ($isLoggedIn) {
+        //already logged in, redirect to home
+        header("Location: /home");
+        exit();
+    }
+
+    $data = getRequestData();
+    $result = $ctx["registrationExecution"]->execute($data);
+    $errors = $result->notSuccessful() ? translateErrors($result->getErrors()) : [];
+
+    $template = new Template("register");
+    $template->set("email", $data["email"]);
+    $template->set("registration_completed", $result->isSuccessful());
+    $template->set("errors", $errors);
+    return $template->render();
+}, ["before" => "csrf"]);
 
 $router->post("/logout", function() {
     

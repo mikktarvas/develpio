@@ -10,6 +10,9 @@ use PDO;
  */
 abstract class BaseDao {
 
+    /**
+     * @var PDO
+     */
     private $pdo;
 
     /**
@@ -24,7 +27,7 @@ abstract class BaseDao {
      * 
      * @param PDO $pdo
      */
-    function setPdo($pdo) {
+    function setPdo(PDO $pdo) {
         $this->pdo = $pdo;
     }
 
