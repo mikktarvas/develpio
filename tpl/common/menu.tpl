@@ -26,7 +26,7 @@
                     </li>
                 {elseif !$is_login_page}
                     <li><a href="/login">Logi sisse <i class="fa fa-sign-in" aria-hidden="true"></i></a></li>
-                {/if}
+                        {/if}
             </ul>
         </div>
     </div>
