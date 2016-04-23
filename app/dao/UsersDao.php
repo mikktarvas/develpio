@@ -14,8 +14,16 @@ class UsersDao extends BaseDao {
         $stmt->bindParam(1, $email);
         $stmt->execute();
         $row = $stmt->fetch();
-        //TODO: probably broken
         return $row === false ? null : $row->password;
+    }
+
+    public function findUserIdByEmail($email) {
+        $pdo = $this->getPdo();
+        $stmt = $pdo->prepare("SELECT users_id FROM core.users WHERE email = ?;");
+        $stmt->bindParam(1, $email);
+        $stmt->execute();
+        $row = $stmt->fetch();
+        return $row === false ? null : $row->users_id;
     }
 
     public function emailExists($email) {

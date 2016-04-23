@@ -4,6 +4,8 @@ use Pimple\Container;
 use app\dao\UsersDao;
 use app\exec\RegistrationExecution;
 use app\process\InsertNewUser;
+use app\exec\LoginExecution;
+use app\process\VerifyPassword;
 
 $container = new Container();
 
@@ -39,6 +41,13 @@ $container["registrationExecution"] = function($container) {
     return $execution;
 };
 
+$container["loginExecution"] = function($container) {
+    $execution = new LoginExecution();
+    $execution->setVerifyPassword($container["verifyPassword"]);
+    $execution->setUsersDao($container["usersDao"]);
+    return $execution;
+};
+
 #################
 # Process layer #
 #################
@@ -48,5 +57,15 @@ $container["insertNewUser"] = function($container) {
     $insertNewUser->setUsersDao($container["usersDao"]);
     return $insertNewUser;
 };
+
+$container["verifyPassword"] = function($container) {
+    $verifyPassword = new VerifyPassword();
+    $verifyPassword->setUsersDao($container["usersDao"]);
+    return $verifyPassword;
+};
+
+####################
+# Return container #
+####################
 
 return $container;

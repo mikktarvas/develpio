@@ -7,13 +7,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">#develp.io</a>
+            <a class="navbar-brand" href="/home">#develp.io</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/home">Küsimused</a></li>
-                <li><a href="/ask">Uus küsimus</a></li>
-                <li><a href="https://github.com/mikktarvas/develpio" target="_blank">Kood <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                <li><a href="/ask">Lisa küsimus</a></li>
+                <li><a href="/tags">Täägid</a></li>
+                <li><a href="https://github.com/mikktarvas/develpio" target="_blank">Github repo <i class="fa fa-external-link" aria-hidden="true"></i></a>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {if $is_logged_in}

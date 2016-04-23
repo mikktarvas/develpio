@@ -49,9 +49,7 @@ $router->get("/login/{email}?", function($email = null) {
 
     $isLoggedIn = isLoggedIn();
     if ($isLoggedIn) {
-        //already logged in, redirect to home
-        header("Location: /home");
-        exit();
+        location("/home");
     }
 
     $template = new Template("login");
@@ -61,9 +59,17 @@ $router->get("/login/{email}?", function($email = null) {
     return $template->render();
 });
 
-$router->post("/login/{email}?", function() {
+$router->post("/login/{email}?", function() use (&$ctx) {
 
     $data = getRequestData();
+
+    $result = $ctx["loginExecution"]->execute($data);
+    if ($result->isSuccessful()) {
+        $userId = $result->getData();
+        regenerateCsrfToken();
+        logIn($userId);
+        location("/home");
+    }
 
     $template = new Template("login");
     $template->set("is_login_page", true);
@@ -76,9 +82,7 @@ $router->get("/register", function() {
 
     $isLoggedIn = isLoggedIn();
     if ($isLoggedIn) {
-        //already logged in, redirect to home
-        header("Location: /home");
-        exit();
+        location("/home");
     }
 
     $template = new Template("register");
@@ -92,9 +96,7 @@ $router->post("/register", function() use (&$ctx) {
 
     $isLoggedIn = isLoggedIn();
     if ($isLoggedIn) {
-        //already logged in, redirect to home
-        header("Location: /home");
-        exit();
+        location("/home");
     }
 
     $data = getRequestData();
@@ -109,5 +111,12 @@ $router->post("/register", function() use (&$ctx) {
 }, ["before" => "csrf"]);
 
 $router->post("/logout", function() {
-    
+
+    $isLoggedIn = isLoggedIn();
+    if (!$isLoggedIn) {
+        location("/home");
+    }
+
+    logOut();
+    location("/home");
 }, ["before" => "csrf"]);

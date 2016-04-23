@@ -95,6 +95,24 @@ function isLoggedIn() {
     return $session["is_logged_in"] === true;
 }
 
+function logIn($userId) {
+    $_SESSION["is_logged_in"] = true;
+    $_SESSION["user_id"] = $userId;
+}
+
+function getLoggedInUser() {
+    return isLoggedIn() ? $_SESSION["user_id"] : null;
+}
+
+function logOut() {
+    $_SESSION = array();
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+    }
+    session_destroy();
+}
+
 function hashPassword($password) {
     Assertion::string($password);
     return password_hash($password, PASSWORD_DEFAULT);
@@ -139,4 +157,9 @@ function translateErrors($codes) {
         $codes = $codes->toArray();
     }
     return ErrorTranslator::translate($codes);
+}
+
+function location($location) {
+    header("Location: $location");
+    exit();
 }
