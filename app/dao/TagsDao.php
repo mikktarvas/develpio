@@ -41,4 +41,17 @@ class TagsDao extends BaseDao {
         $stmt->execute();
     }
 
+    public function findQuestionTags($questionId) {
+        $pdo = $this->getPdo();
+        $stmt = $pdo->prepare("
+                SELECT 
+                    ct.tag_id AS tag_id,  
+                    ct.name AS name 
+                FROM core.tags ct JOIN core.question_tags cqt ON ct.tag_id = cqt.tag_id WHERE cqt.question_id = ?;");
+        $stmt->bindParam(1, $questionId);
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        return $rows;
+    }
+
 }

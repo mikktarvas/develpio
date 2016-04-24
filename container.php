@@ -13,6 +13,7 @@ use app\process\VerifyPassword;
 use app\process\InsertNewQuestion;
 use app\process\AttachTag;
 use app\process\InsertNewTag;
+use app\exec\FindQuestionExecution;
 
 $container = new Container();
 
@@ -77,6 +78,14 @@ $container["askQuestionExecution"] = function($container) {
     $execution = new AskQuestionExecution();
     $execution->setInsertNewQuestion($container["insertNewQuestion"]);
     $execution->setQuestionsDao($container["questionsDao"]);
+    return $execution;
+};
+
+$container["findQuestionExecution"] = function($container) {
+    $execution = new FindQuestionExecution();
+    $execution->setQuestionsDao($container["questionsDao"]);
+    $execution->setUsersDao($container["usersDao"]);
+    $execution->setTagsDao($container["tagsDao"]);
     return $execution;
 };
 

@@ -31,7 +31,7 @@ abstract class IntegrationTest extends BaseTest {
 
     protected function loremIpsum() {
         if (self::$ipsum === null) {
-            self::$ipsum = file_get_contents("http://loripsum.net/api/20/plaintext");
+            self::$ipsum = file_get_contents("http://loripsum.net/api/10/plaintext");
         }
         return self::$ipsum;
     }

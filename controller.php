@@ -37,6 +37,13 @@ $router->filter("auth", function() {
     return null;
 });
 
+$router->filter("redirect_logged_in", function() {
+    $isLoggedIn = isLoggedIn();
+    if ($isLoggedIn) {
+        location("/home");
+    }
+});
+
 #########
 # Pages #
 #########
@@ -77,19 +84,28 @@ $router->post("/ask", function() use (&$ctx) {
     return $template->render();
 }, ["before" => ["csrf", "auth"]]);
 
-$router->get("/login/{email}?", function($email = null) {
+$router->get("/question/{id}/{slug}", function($id) use(&$ctx) {
+    $result = $ctx["findQuestionExecution"]->execute($id);
+    //var_dump($result);
+    $template = new Template("question");
 
-    $isLoggedIn = isLoggedIn();
-    if ($isLoggedIn) {
-        location("/home");
+    if ($result->notSuccessful() && $result->getErrors()->contains("question_not_found")) {
+        $template->set("not_found", true);
+    } else {
+        $template->set("not_found", false);
+        $template->set("question", $result->getData());
     }
 
+    return $template->render();
+});
+
+$router->get("/login/{email}?", function($email = null) {
     $template = new Template("login");
     $template->set("is_login_page", true);
     $template->set("login_failed", false);
     $template->set("email", urldecode($email));
     return $template->render();
-});
+}, ["before" => ["redirect_logged_in"]]);
 
 $router->post("/login/{email}?", function() use (&$ctx) {
 
@@ -108,28 +124,17 @@ $router->post("/login/{email}?", function() use (&$ctx) {
     $template->set("login_failed", true);
     $template->set("email", $data["email"]);
     return $template->render();
-}, ["before" => "csrf"]);
+}, ["before" => ["csrf", "redirect_logged_in"]]);
 
 $router->get("/register", function() {
-
-    $isLoggedIn = isLoggedIn();
-    if ($isLoggedIn) {
-        location("/home");
-    }
-
     $template = new Template("register");
     $template->set("email", "");
     $template->set("registration_completed", false);
     $template->set("errors", []);
     return $template->render();
-});
+}, ["before" => ["redirect_logged_in"]]);
 
 $router->post("/register", function() use (&$ctx) {
-
-    $isLoggedIn = isLoggedIn();
-    if ($isLoggedIn) {
-        location("/home");
-    }
 
     $data = getRequestData();
     $result = $ctx["registrationExecution"]->execute($data);
@@ -140,7 +145,7 @@ $router->post("/register", function() use (&$ctx) {
     $template->set("registration_completed", $result->isSuccessful());
     $template->set("errors", $errors);
     return $template->render();
-}, ["before" => "csrf"]);
+}, ["before" => ["csrf", "redirect_logged_in"]]);
 
 $router->post("/logout", function() {
 

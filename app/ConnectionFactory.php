@@ -12,6 +12,7 @@ use Exception;
 class ConnectionFactory {
 
     private static $DEFAULT_OPTIONS = [
+        PDO::ATTR_CASE => PDO::CASE_NATURAL,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
     ];

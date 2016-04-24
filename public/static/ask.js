@@ -13,7 +13,5 @@ $(document).ready(function () {
             placeholder: "Sinu küsimus siia"
         });
 
-        console.log(marked("## asd"));
-        //https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js
     }
 });

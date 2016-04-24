@@ -11,8 +11,12 @@
         <div class="container">
 
             {if $registration_completed}
-                <h2>Registreerimine õnnestus!</h2>
-                <p>Võite oma uue kasutajaga <a href="/login/{$email|escape:'url'}">sisse logida</a>.</p>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2>Registreerimine õnnestus!</h2>
+                        <p>Võite oma uue kasutajaga <a href="/login/{$email|escape:'url'}">sisse logida</a>.</p>
+                    </div>
+                </div>
             {else}
                 <div class="row">
                     <div class="col-sm-push-3 col-sm-pull-3 col-sm-6 col-xs-10 col-xs-push-1">
@@ -48,8 +52,9 @@
                         </form>
                     </div>
                 </div>
-            </div>
-        {/if}
+            {/if}
+        </div>
+
 
         {include file='common/footer.tpl'}
         {include file='common/js.tpl'}
