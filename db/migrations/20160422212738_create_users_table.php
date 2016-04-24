@@ -10,14 +10,14 @@ class CreateUsersTable extends AbstractMigration {
             CREATE SEQUENCE core.users_seq START 1000;
 
             CREATE TABLE core.users (
-                users_id BIGINT DEFAULT nextval('core.users_seq'),
-                email VARCHAR(255),
-                password VARCHAR(255),
+                user_id BIGINT DEFAULT nextval('core.users_seq'),
+                email VARCHAR(256),
+                password VARCHAR(256),
                 active BOOLEAN DEFAULT TRUE,
                 created_at TIMESTAMP WITH TIME ZONE,
                 updated_at TIMESTAMP WITH TIME ZONE,
                 
-                CONSTRAINT users__pkey PRIMARY KEY(users_id)
+                CONSTRAINT users__pkey PRIMARY KEY(user_id)
             );
 
             CREATE TRIGGER users_meta_trigger 

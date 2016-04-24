@@ -2,6 +2,9 @@
 
 use Pimple\Container;
 use app\dao\UsersDao;
+use app\dao\QuestionsDao;
+use app\dao\TagsDao;
+use app\dao\VotesDao;
 use app\exec\RegistrationExecution;
 use app\process\InsertNewUser;
 use app\exec\LoginExecution;
@@ -27,6 +30,24 @@ $container["session"] = function() {
 
 $container["usersDao"] = function($container) {
     $dao = new UsersDao();
+    $dao->setPdo($container["pdo"]);
+    return $dao;
+};
+
+$container["questionsDao"] = function($container) {
+    $dao = new QuestionsDao();
+    $dao->setPdo($container["pdo"]);
+    return $dao;
+};
+
+$container["tagsDao"] = function($container) {
+    $dao = new TagsDao();
+    $dao->setPdo($container["pdo"]);
+    return $dao;
+};
+
+$container["votesDao"] = function($container) {
+    $dao = new VotesDao();
     $dao->setPdo($container["pdo"]);
     return $dao;
 };

@@ -30,4 +30,4 @@ try {
     return false;
 }
 
-//TODO: handle csrf exception
+//TODO: handle csrf exception, auth exception

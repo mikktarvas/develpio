@@ -86,3 +86,13 @@ body {
 .bs-callout-info h3 {
     color: #5bc0de;
 }
+
+/* MDE tweaks */
+
+.editor-toolbar.fullscreen {
+    z-index: 3000;
+}
+
+.CodeMirror .CodeMirror-placeholder {
+    opacity: .2;
+}

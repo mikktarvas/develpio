@@ -48,7 +48,7 @@ class RegistrationExecution {
         $errors = [];
 
         $email = $data["email"];
-        if (!is_string($email) || !preg_match("/^.+\\@.+$/", $email)) {
+        if (!is_string($email) || !preg_match("/^.+\\@.+$/", $email) || strlen($email) > 256) {
             $errors[] = "invalid_email";
         }
 

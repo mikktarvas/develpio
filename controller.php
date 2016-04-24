@@ -7,6 +7,7 @@
 use Phroute\Phroute\RouteCollector;
 use app\Template;
 use app\CsrfMismatchException;
+use app\AuthenticationException;
 
 $router = new RouteCollector();
 $ctx = getCtx();
@@ -21,6 +22,16 @@ $router->filter("csrf", function() {
 
     if (!$csrfIsValid) {
         throw new CsrfMismatchException("csrf token mismatch");
+    }
+
+    return null;
+});
+
+$router->filter("auth", function() {
+    $isLoggedIn = isLoggedIn();
+
+    if (!$isLoggedIn) {
+        throw new AuthenticationException("not logged in");
     }
 
     return null;
@@ -44,6 +55,14 @@ $router->get("/ask", function() {
     $template = new Template("ask");
     return $template->render();
 });
+
+$router->post("/ask", function() {
+    $data = getRequestData();
+    var_dump($data);
+    
+    $template = new Template("ask");
+    return $template->render();
+}, ["before" => ["csrf", "auth"]]);
 
 $router->get("/login/{email}?", function($email = null) {
 
