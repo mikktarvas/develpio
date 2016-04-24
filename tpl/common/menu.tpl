@@ -12,7 +12,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/ask">Lisa küsimus</a></li>
-                <li><a href="/tags">Täägid</a></li>
+                <li><a href="/tags">Sildid</a></li>
                 <li><a href="https://github.com/mikktarvas/develpio" target="_blank">Github repo <i class="fa fa-external-link" aria-hidden="true"></i></a>
             </ul>
             <ul class="nav navbar-nav navbar-right">

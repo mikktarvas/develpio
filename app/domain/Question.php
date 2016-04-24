@@ -11,6 +11,7 @@ class Question {
     private $userId;
     private $title;
     private $content;
+    private $slug;
 
     function getUserId() {
         return $this->userId;
@@ -34,6 +35,14 @@ class Question {
 
     function setContent($content) {
         $this->content = $content;
+    }
+
+    function getSlug() {
+        return $this->slug;
+    }
+
+    function setSlug($slug) {
+        $this->slug = $slug;
     }
 
 }

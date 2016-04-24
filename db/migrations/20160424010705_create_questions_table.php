@@ -11,10 +11,13 @@ class CreateQuestionsTable extends AbstractMigration {
 
             CREATE TABLE core.questions (
                 question_id BIGINT DEFAULT nextval('core.questions_seq'),
-                user_id BIGINT,
-                title VARCHAR(512),
-                content TEXT,
+                user_id BIGINT NOT NULL,
+                title VARCHAR(512) NOT NULL,
+                content TEXT NOT NULL,
+                slug VARCHAR(64) NOT NULL,
                 inserted TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp,
+                modified TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+                
                 created_at TIMESTAMP WITH TIME ZONE,
                 updated_at TIMESTAMP WITH TIME ZONE,
                 

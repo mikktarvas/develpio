@@ -163,3 +163,8 @@ function location($location) {
     header("Location: $location");
     exit();
 }
+
+function isBlank($string) {
+    Assertion::string($string);
+    return strlen(trim($string)) === 0;
+}

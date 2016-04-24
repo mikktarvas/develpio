@@ -20,18 +20,28 @@
             {else}
                 <form method="POST" action="/ask">
                     {include file='common/csrf_input.tpl'}
+                    {if !empty($errors)}
+                        <div class="form-group">
+                            <div class="bs-callout bs-callout-danger">
+                                <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Postituse tegemine ebaõnnestus</h3>
+                                <div style="padding-top:.5em;">
+                                    {foreach from=$errors item=error}<p>- {$error}</p>{/foreach}
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
                     <div class="form-group">
-                        <input type="text" name="title" class="form-control input-lg" placeholder="Pealkiri" autocomplete="off">
+                        <input type="text" name="title" class="form-control input-lg" placeholder="Pealkiri" autocomplete="off" value="{$title}"/>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <textarea id="question-textarea" name="content" style="display: none;"></textarea>
+                            <textarea id="question-textarea" name="content" style="display: none;">{$content}</textarea>
                         </div>
                     </div>
                     <br />
                     <div class="row">
                         <div class="col-sm-10" style="padding-left: 25px; padding-top: 8px; margin-bottom: 10px;">
-                            <input type="text" name="tags" class="form-control input-sm" placeholder="Täägid - eralda komaga" autocomplete="off">
+                            <input type="text" name="tags" class="form-control input-sm" placeholder="Sildid - eralda komaga" value="{$tags}" autocomplete="off">
                         </div>
                         <div class="col-sm-2 text-center">
                             <button type="submit" class="btn btn-success btn-lg" style="padding:.65em 3em;">Lisa</button>

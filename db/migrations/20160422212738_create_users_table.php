@@ -14,10 +14,12 @@ class CreateUsersTable extends AbstractMigration {
                 email VARCHAR(256),
                 password VARCHAR(256),
                 active BOOLEAN DEFAULT TRUE,
+                
                 created_at TIMESTAMP WITH TIME ZONE,
                 updated_at TIMESTAMP WITH TIME ZONE,
                 
-                CONSTRAINT users__pkey PRIMARY KEY(user_id)
+                CONSTRAINT users__pkey PRIMARY KEY(user_id),
+                CONSTRAINT users_email__uniq UNIQUE(email)
             );
 
             CREATE TRIGGER users_meta_trigger 

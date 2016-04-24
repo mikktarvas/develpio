@@ -6,9 +6,13 @@ use app\dao\QuestionsDao;
 use app\dao\TagsDao;
 use app\dao\VotesDao;
 use app\exec\RegistrationExecution;
+use app\exec\AskQuestionExecution;
 use app\process\InsertNewUser;
 use app\exec\LoginExecution;
 use app\process\VerifyPassword;
+use app\process\InsertNewQuestion;
+use app\process\AttachTag;
+use app\process\InsertNewTag;
 
 $container = new Container();
 
@@ -69,9 +73,22 @@ $container["loginExecution"] = function($container) {
     return $execution;
 };
 
+$container["askQuestionExecution"] = function($container) {
+    $execution = new AskQuestionExecution();
+    $execution->setInsertNewQuestion($container["insertNewQuestion"]);
+    $execution->setQuestionsDao($container["questionsDao"]);
+    return $execution;
+};
+
 #################
 # Process layer #
 #################
+
+$container["insertNewTag"] = function($container) {
+    $insertNewTag = new InsertNewTag();
+    $insertNewTag->setTagsDao($container["tagsDao"]);
+    return $insertNewTag;
+};
 
 $container["insertNewUser"] = function($container) {
     $insertNewUser = new InsertNewUser();
@@ -83,6 +100,20 @@ $container["verifyPassword"] = function($container) {
     $verifyPassword = new VerifyPassword();
     $verifyPassword->setUsersDao($container["usersDao"]);
     return $verifyPassword;
+};
+
+$container["insertNewQuestion"] = function($container) {
+    $insertNewQuestion = new InsertNewQuestion();
+    $insertNewQuestion->setQuestionsDao($container["questionsDao"]);
+    $insertNewQuestion->setAttachTag($container["attachTag"]);
+    return $insertNewQuestion;
+};
+
+$container["attachTag"] = function($container) {
+    $attachTag = new AttachTag();
+    $attachTag->setInsertNewTag($container["insertNewTag"]);
+    $attachTag->setTagsDao($container["tagsDao"]);
+    return $attachTag;
 };
 
 ####################

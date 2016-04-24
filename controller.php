@@ -53,14 +53,27 @@ $router->get("/home", function() {
 
 $router->get("/ask", function() {
     $template = new Template("ask");
+    $template->set("errors", []);
+    $template->set("content", "");
+    $template->set("title", "");
+    $template->set("tags", "");
     return $template->render();
 });
 
-$router->post("/ask", function() {
+$router->post("/ask", function() use (&$ctx) {
     $data = getRequestData();
-    var_dump($data);
-    
+    $result = $ctx["askQuestionExecution"]->execute(getLoggedInUser(), $data);
+
+    if ($result->isSuccessful()) {
+        $urlInfo = $result->getData();
+        location("/question/$urlInfo->id/$urlInfo->slug");
+    }
+
     $template = new Template("ask");
+    $template->set("errors", translateErrors($result->getErrors()));
+    $template->set("content", $data["content"]);
+    $template->set("title", $data["title"]);
+    $template->set("tags", $data["tags"]);
     return $template->render();
 }, ["before" => ["csrf", "auth"]]);
 
