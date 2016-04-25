@@ -14,6 +14,7 @@ use app\process\InsertNewQuestion;
 use app\process\AttachTag;
 use app\process\InsertNewTag;
 use app\exec\FindQuestionExecution;
+use app\exec\ListQuestionsExecution;
 
 $container = new Container();
 
@@ -85,6 +86,13 @@ $container["findQuestionExecution"] = function($container) {
     $execution = new FindQuestionExecution();
     $execution->setQuestionsDao($container["questionsDao"]);
     $execution->setUsersDao($container["usersDao"]);
+    $execution->setTagsDao($container["tagsDao"]);
+    return $execution;
+};
+
+$container["listQuestionsExecution"] = function($container) {
+    $execution = new ListQuestionsExecution();
+    $execution->setQuestionsDao($container["questionsDao"]);
     $execution->setTagsDao($container["tagsDao"]);
     return $execution;
 };

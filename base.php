@@ -12,10 +12,20 @@ use app\Configuration;
 use Assert\Assertion;
 use app\ContextHolder;
 use app\ErrorTranslator;
+use app\util\Result;
 
 #########################
 # Bootstrap application #
 #########################
+
+function exception_error_handler($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+    throw new ErrorException($message, 0, $severity, $file, $line);
+}
+
+set_error_handler("exception_error_handler");
 
 require "./vendor/autoload.php";
 
@@ -167,4 +177,18 @@ function location($location) {
 function isBlank($string) {
     Assertion::string($string);
     return strlen(trim($string)) === 0;
+}
+
+function resultToJson(Result $result) {
+    $json = null;
+    if ($result->isSuccessful()) {
+        $json = ["data" => $result->getData(), "errors" => []];
+    } else {
+        $json = ["data" => null, "errors" => $result->getErrors()->toArray()];
+    }
+    return json_encode($json);
+}
+
+function jsonHeader() {
+    header("Content-Type: application/json;charset=utf-8");
 }

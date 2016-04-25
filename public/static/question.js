@@ -1,9 +1,6 @@
 $(document).ready(function () {
 
-    //console.log(marked);
-    var $question = $("#question-content");
-    $question.html(marked($question.html()));
-    $question.show();
+    renderMarkdown();
 
     /*var isLoggedIn = $("meta[name='is_logged_in']").attr("content") === "true";
      

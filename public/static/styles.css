@@ -26,6 +26,24 @@ body {
     height: 30px;
 }
 
+.markdown-aware {
+    display: none;
+}
+
+.tags {
+    padding-left: 2em;
+    font-size: 80%;
+}
+
+.asker {
+    padding-right: 2em;
+    font-size: 80%;
+}
+
+a.title-link {
+    color: #444;
+}
+
 /*
  * Bootstrap callouts
  */

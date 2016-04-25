@@ -30,7 +30,7 @@
 
                 <div class="row">
                     <div class="col-xs-12" style="padding: 1em 1.5em;">
-                        <div id="question-content" style="display: none;">{$question->content}</div>
+                        <div class="markdown-aware">{$question->content}</div>
                     </div>
                 </div>
 

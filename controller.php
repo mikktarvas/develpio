@@ -44,6 +44,10 @@ $router->filter("redirect_logged_in", function() {
     }
 });
 
+$router->filter("json_header", function(){
+    jsonHeader();
+});
+
 #########
 # Pages #
 #########
@@ -86,9 +90,9 @@ $router->post("/ask", function() use (&$ctx) {
 
 $router->get("/question/{id}/{slug}", function($id) use(&$ctx) {
     $result = $ctx["findQuestionExecution"]->execute($id);
-    //var_dump($result);
     $template = new Template("question");
 
+    //TODO: throw phroute exception instead and render custom 404
     if ($result->notSuccessful() && $result->getErrors()->contains("question_not_found")) {
         $template->set("not_found", true);
     } else {
@@ -157,3 +161,12 @@ $router->post("/logout", function() {
     logOut();
     location("/home");
 }, ["before" => "csrf"]);
+
+########
+# REST #
+########
+
+$router->post("/api/questions/{offset}/{tag}?", function($offset, $tag = null) use (&$ctx) {
+    $result = $ctx["listQuestionsExecution"]->execute($offset, $tag);
+    return resultToJson($result);
+}, ["before" => "json_header"]);
