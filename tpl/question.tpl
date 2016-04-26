@@ -12,45 +12,114 @@
         {include file='common/menu.tpl'}
         <div class="container">
 
-            {if $not_found}
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>{$question->title}</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12" style="padding: 1em 1.5em;">
+                    <div class="markdown-aware">{$question->content}</div>
+                </div>
+            </div>
+
+            <div class="row" style="font-size: 80%;">
+                <div class="col-sm-8" style="padding-left: 2em;">
+                    {foreach from=$question->tags item=tag}
+                        <span class="label label-default tag"><a href="/tags/{$tag}">{$tag}</a></span>
+                        {/foreach}
+                </div>
+                <div class="col-sm-4 text-right" style="padding-right: 2em;">
+                    <a href="javascript:void(0);">{$question->user}</a> <br/> {$question->inserted|date_format:"%d.%m.%Y"}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12" style="padding: 1em 1.5em;">
+                    <hr />
+                </div>
+            </div>
+
+            {if !$is_logged_in} 
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div class="bs-callout bs-callout-danger">
-                            <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 404</h3>
-                            <p>Otsitud küsimust ei leitud</p>
-                        </div>
+                    <div class="col-xs-12 text-center" style="padding: 5em .5em;">
+                        <h2>Tundub, et Sa ei ole sisse loginud!</h2>
+                        <p>Küsimusele vastamiseks pead <a href="/login">sisse logima</a>.</p>
                     </div>
                 </div>
             {else}
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h1>{$question->title}</h1>
+                <form method="POST" action="">
+                    {include file='common/csrf_input.tpl'}
+                    <input type="hidden" value="{$question_id}" name="question_id"/>
+                    {if !empty($errors)}
+                        <div class="form-group" id="answer_errors">
+                            <div class="bs-callout bs-callout-danger">
+                                <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Postituse tegemine ebaõnnestus</h3>
+                                <div style="padding-top:.5em;">
+                                    {foreach from=$errors item=error}<p>- {$error}</p>{/foreach}
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            window.location.hash = '#answer_errors';
+                        </script>
+                    {/if}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <textarea id="answer-textarea" name="content" style="display: none;">{$content}</textarea>
+                        </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-right">
+                            <button type="submit" class="btn btn-success btn-lg" style="padding:.65em 3em;">Vasta</button>
+                        </div>
+                    </div>
+                </form>
 
+            {/if}
+
+            {if empty($question->answers) && empty($errors)}
                 <div class="row">
                     <div class="col-xs-12" style="padding: 1em 1.5em;">
-                        <div class="markdown-aware">{$question->content}</div>
+                        <div class="bs-callout bs-callout-primary">
+                            <h3>Antud küsimusel ei ole ühtegi vastust</h3>
+                            <p>Ole esimene kes vastuse annab!</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="row" style="font-size: 80%;">
-                    <div class="col-sm-8" style="padding-left: 2em;">
-                        {foreach from=$question->tags item=tag}
-                            <span class="label label-default tag"><a href="/tags/{$tag}">{$tag}</a></span>
-                        {/foreach}
-                    </div>
-                    <div class="col-sm-4 text-right" style="padding-right: 2em;">
-                        <a href="javascript:void(0);">{$question->user}</a> <br/> {$question->inserted|date_format:"%d.%m.%Y"}
+            {elseif !empty($question->answers)}
+                <div class="row">
+                    <div class="col-xs-12 text-center" style="padding: 1em 1.5em;">
+                        <h2>Vastused:</h2>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-xs-12" style="padding: 1em 1.5em;">
                         <hr />
                     </div>
                 </div>
+                {foreach from=$question->answers item=answer}
+                    <div class="row">
+                        <div class="col-xs-12" style="padding: 1em 1.5em;">
+                            <div class="markdown-aware">{$answer->content}</div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="font-size: 80%;">
+                        <div class="col-sm-12 text-right" style="padding-right: 2em;">
+                            <a href="javascript:void(0);">{$answer->author}</a> <br/> {$answer->inserted|date_format:"%d.%m.%Y"}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12" style="padding: 1em 1.5em;">
+                            <hr />
+                        </div>
+                    </div>
+                {/foreach}
             {/if}
+
         </div>
 
         {include file='common/footer.tpl'}

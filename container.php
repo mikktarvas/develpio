@@ -16,6 +16,9 @@ use app\process\InsertNewTag;
 use app\exec\FindQuestionExecution;
 use app\exec\ListQuestionsExecution;
 use app\exec\ListTagsExecution;
+use app\exec\AnswerQuestionExecution;
+use app\dao\AnswersDao;
+use app\process\InsertAnswer;
 
 $container = new Container();
 
@@ -59,6 +62,12 @@ $container["votesDao"] = function($container) {
     return $dao;
 };
 
+$container["answersDao"] = function($container) {
+    $dao = new AnswersDao();
+    $dao->setPdo($container["pdo"]);
+    return $dao;
+};
+
 ##############
 # Exec layer #
 ##############
@@ -88,6 +97,7 @@ $container["findQuestionExecution"] = function($container) {
     $execution->setQuestionsDao($container["questionsDao"]);
     $execution->setUsersDao($container["usersDao"]);
     $execution->setTagsDao($container["tagsDao"]);
+    $execution->setAnswersDao($container["answersDao"]);
     return $execution;
 };
 
@@ -101,6 +111,12 @@ $container["listQuestionsExecution"] = function($container) {
 $container["listTagsExecution"] = function($container) {
     $execution = new ListTagsExecution();
     $execution->setTagsDao($container["tagsDao"]);
+    return $execution;
+};
+
+$container["answerQuestionExecution"] = function($container) {
+    $execution = new AnswerQuestionExecution();
+    $execution->setInsertAnswer($container["insertAnswer"]);
     return $execution;
 };
 
@@ -138,6 +154,14 @@ $container["attachTag"] = function($container) {
     $attachTag->setInsertNewTag($container["insertNewTag"]);
     $attachTag->setTagsDao($container["tagsDao"]);
     return $attachTag;
+};
+
+$container["insertAnswer"] = function($container) {
+    $insertAnswer = new InsertAnswer();
+    $insertAnswer->setAnswersDao($container["answersDao"]);
+    $insertAnswer->setQuestionsDao($container["questionsDao"]);
+    $insertAnswer->setUsersDao($container["usersDao"]);
+    return $insertAnswer;
 };
 
 ####################

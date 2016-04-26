@@ -54,4 +54,13 @@ class UsersDao extends BaseDao {
         return $row->user_id;
     }
 
+    public function userExists($userId) {
+        $pdo = $this->getPdo();
+        $stmt = $pdo->prepare("SELECT COUNT(user_id) > 0 AS exists FROM core.users WHERE user_id = ?;");
+        $stmt->bindParam(1, $userId);
+        $stmt->execute();
+        $row = $stmt->fetch();
+        return $row->exists;
+    }
+
 }

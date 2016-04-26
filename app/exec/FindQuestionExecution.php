@@ -7,6 +7,7 @@ use app\dao\QuestionsDao;
 use stdClass;
 use app\dao\UsersDao;
 use app\dao\TagsDao;
+use app\dao\AnswersDao;
 
 /**
  * User: Mikk Tarvas
@@ -29,25 +30,27 @@ class FindQuestionExecution {
      */
     private $tagsDao;
 
+    /**
+     * @var AnswersDao
+     */
+    private $answersDao;
+
     public function execute($questionId) {
 
         $question = $this->questionsDao->findQuestion($questionId);
         if ($question === null) {
-            //TODO: handle in controller
             return Result::error("question_not_found");
         }
 
         $user = $this->usersDao->findUserById($question->user_id);
         $tags = $this->tagsDao->findQuestionTags($question->id);
+        $answers = $this->answersDao->listAnswersByQuestionId($questionId);
 
-        //TODO: tags
-        //TODO: answers
-
-        $data = $this->createData($question, $user, $tags);
+        $data = $this->createData($question, $user, $tags, $answers);
         return Result::success($data);
     }
 
-    private function createData($question, $user, $tags) {
+    private function createData($question, $user, $tags, $answers) {
         $data = new stdClass();
 
         $data->title = $question->title;
@@ -55,6 +58,7 @@ class FindQuestionExecution {
         $data->inserted = $question->inserted;
         $data->user = $user->email;
         $data->userId = $user->id;
+        $data->answers = $answers;
         $data->tags = [];
         foreach ($tags AS $tag) {
             $data->tags[] = $tag->name;
@@ -85,6 +89,14 @@ class FindQuestionExecution {
 
     function setTagsDao(TagsDao $tagsDao) {
         $this->tagsDao = $tagsDao;
+    }
+
+    function getAnswersDao() {
+        return $this->answersDao;
+    }
+
+    function setAnswersDao(AnswersDao $answersDao) {
+        $this->answersDao = $answersDao;
     }
 
 }

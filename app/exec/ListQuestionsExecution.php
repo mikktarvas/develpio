@@ -24,7 +24,7 @@ class ListQuestionsExecution {
 
     public function execute($offset, $tag) {
 
-        if (!is_numeric($offset) || $offset < 0) {
+        if ($offset === "" || $offset === null || !ctype_digit($offset) || $offset < 0) {
             return Result::error("invalid_offset");
         }
         $offset = (int) $offset;

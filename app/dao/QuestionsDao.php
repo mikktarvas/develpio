@@ -58,6 +58,15 @@ class QuestionsDao extends BaseDao {
         return $row === false ? null : $row;
     }
 
+    public function questionExists($questionId) {
+        $pdo = $this->getPdo();
+        $stmt = $pdo->prepare("SELECT COUNT(question_id) > 0 AS exists FROM core.questions WHERE question_id = ?;");
+        $stmt->bindParam(1, $questionId);
+        $stmt->execute();
+        $row = $stmt->fetch();
+        return $row->exists;
+    }
+
     public function listQuestions($offset) {
         $offset = $offset * self::$PAGE_SIZE;
         $pdo = $this->getPdo();

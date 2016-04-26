@@ -8,6 +8,7 @@ use Phroute\Phroute\RouteCollector;
 use app\Template;
 use app\CsrfMismatchException;
 use app\AuthenticationException;
+use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 
 $router = new RouteCollector();
 $ctx = getCtx();
@@ -107,16 +108,36 @@ $router->get("/question/{id}/{slug}", function($id) use(&$ctx) {
     $result = $ctx["findQuestionExecution"]->execute($id);
     $template = new Template("question");
 
-    //TODO: throw phroute exception instead and render custom 404
     if ($result->notSuccessful() && $result->getErrors()->contains("question_not_found")) {
-        $template->set("not_found", true);
-    } else {
-        $template->set("not_found", false);
-        $template->set("question", $result->getData());
+        throw new HttpRouteNotFoundException();
     }
 
+    $template->set("question_id", $id);
+    $template->set("question", $result->getData());
+    $template->set("content", "");
+    $template->set("answer_ok", false);
     return $template->render();
 });
+
+$router->post("/question/{id}/{slug}", function($id) use(&$ctx) {
+    $data = getRequestData();
+    $insertResult = $ctx["answerQuestionExecution"]->execute($data, getLoggedInUser());
+    $result = $ctx["findQuestionExecution"]->execute($id);
+    if ($result->notSuccessful() && $result->getErrors()->contains("question_not_found")) {
+        throw new HttpRouteNotFoundException();
+    }
+
+    $template = new Template("question");
+
+    $errors = $insertResult->notSuccessful() ? translateErrors($insertResult->getErrors()) : [];
+
+    $template->set("errors", $errors);
+    $template->set("question_id", $id);
+    $template->set("question", $result->getData());
+    $template->set("content", $result->isSuccessful() ? "" : $data["content"]);
+    $template->set("answer_ok", $result->isSuccessful());
+    return $template->render();
+}, ["before" => "auth"]);
 
 $router->get("/login/{email}?", function($email = null) {
     $template = new Template("login");
