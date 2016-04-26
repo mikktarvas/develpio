@@ -55,6 +55,7 @@ class CoreSchema extends AbstractSeed {
         $tcount = count($tagIds) - 1;
         $stmt = $pdo->prepare("INSERT INTO core.questions (user_id, title, content, slug) VALUES (?, ?, ?, ?) RETURNING question_id;");
         $attachTag = $pdo->prepare("INSERT INTO core.question_tags (tag_id, question_id) VALUES (?, ?);");
+        $answer = $pdo->prepare("INSERT INTO core.answers (user_id, question_id, content) VALUES (?, ?, ?) RETURNING question_id;");
         for ($i = 0; $i < self::$QUESTION_COUNT; $i++) {
             $tags = $faker->randomElements($tagIds, $faker->numberBetween(1, 6));
             $userId = $faker->randomElement($userIds);
@@ -65,6 +66,12 @@ class CoreSchema extends AbstractSeed {
             $questionId = $stmt->fetch()["question_id"];
             foreach ($tags AS $tag) {
                 $attachTag->execute([$tag, $questionId]);
+            }
+
+            for ($j = 0; $j < $faker->numberBetween(0, 20); $j++) {
+                $userId = $faker->randomElement($userIds);
+                $content = $faker->paragraphs(10, true);
+                $answer->execute([$userId, $questionId, $content]);
             }
         }
     }
