@@ -2,15 +2,15 @@
 
 namespace tests;
 
-use \Pimple\Container;
+use Pimple\Container;
+use Faker\Factory AS FakerFactory;
+use Faker\Generator;
 
 /**
  * User: Mikk Tarvas
  * Date: 23/04/16
  */
 abstract class IntegrationTest extends BaseTest {
-
-    private static $ipsum = null;
 
     /**
      * 
@@ -30,10 +30,31 @@ abstract class IntegrationTest extends BaseTest {
     }
 
     protected function loremIpsum() {
-        if (self::$ipsum === null) {
-            self::$ipsum = file_get_contents("http://loripsum.net/api/10/plaintext");
-        }
-        return self::$ipsum;
+        return $this->faker()->paragraphs(10, true);
+    }
+
+    /**
+     * 
+     * @return Generator
+     */
+    protected function faker() {
+        return FakerFactory::create();
+    }
+
+    /**
+     * 
+     * @return PDO
+     */
+    protected function getPdo() {
+        return getConnection();
+    }
+
+    protected function randomEmail() {
+        return $this->faker()->userName . "@localhost";
+    }
+
+    protected function randomPassword() {
+        return randomString(16);
     }
 
 }

@@ -35,6 +35,19 @@ body {
     font-size: 80%;
 }
 
+.tag a {
+    color: #eee;
+}
+
+.tag {
+    display: inline-block;
+    margin-bottom: .5em;
+}
+
+.tag a:hover {
+    color: #b96d70;
+}
+
 .asker {
     padding-right: 2em;
     font-size: 80%;
@@ -42,6 +55,14 @@ body {
 
 a.title-link {
     color: #444;
+}
+
+#loader {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding-bottom: 25px;
+    display: none;
 }
 
 /*

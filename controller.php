@@ -44,7 +44,7 @@ $router->filter("redirect_logged_in", function() {
     }
 });
 
-$router->filter("json_header", function(){
+$router->filter("json_header", function() {
     jsonHeader();
 });
 
@@ -53,12 +53,27 @@ $router->filter("json_header", function(){
 #########
 
 $router->get("/", function() {
-    $template = new Template("home");
+    $template = new Template("questions");
+    $template->set("tag", null);
     return $template->render();
 });
 
 $router->get("/home", function() {
-    $template = new Template("home");
+    $template = new Template("questions");
+    $template->set("tag", null);
+    return $template->render();
+});
+
+$router->get("/tags", function() use (&$ctx) {
+    $result = $ctx["listTagsExecution"]->execute();
+    $template = new Template("tags");
+    $template->set("tags", $result->getData());
+    return $template->render();
+});
+
+$router->get("/tags/{tag}", function($tag) {
+    $template = new Template("questions");
+    $template->set("tag", $tag);
     return $template->render();
 });
 

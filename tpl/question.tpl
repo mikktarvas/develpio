@@ -37,11 +37,11 @@
                 <div class="row" style="font-size: 80%;">
                     <div class="col-sm-8" style="padding-left: 2em;">
                         {foreach from=$question->tags item=tag}
-                            <span class="label label-default">{$tag}</span>
+                            <span class="label label-default tag"><a href="/tags/{$tag}">{$tag}</a></span>
                         {/foreach}
                     </div>
                     <div class="col-sm-4 text-right" style="padding-right: 2em;">
-                        <a href="javascript:void(0);">{$question->user}</a>@{$question->inserted|date_format:"%d.%m.%Y"}
+                        <a href="javascript:void(0);">{$question->user}</a> <br/> {$question->inserted|date_format:"%d.%m.%Y"}
                     </div>
                 </div>
 

@@ -54,4 +54,24 @@ class TagsDao extends BaseDao {
         return $rows;
     }
 
+    public function listTagsWithCounts() {
+        $pdo = $this->getPdo();
+        $stmt = $pdo->prepare("
+            SELECT
+                ct.name AS name,
+                sub.count AS count
+            FROM core.tags ct
+            JOIN
+            (SELECT 
+                COUNT(cqt.tag_id) AS count,
+                cqt.tag_id AS id 
+            FROM core.tags ct
+                JOIN core.question_tags cqt ON cqt.tag_id = ct.tag_id
+                GROUP BY (cqt.tag_id)) AS sub ON sub.id = ct.tag_id
+            ORDER BY count DESC");
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        return $rows;
+    }
+
 }

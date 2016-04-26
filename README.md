@@ -10,6 +10,7 @@
 * install php deps via ```$ composer install```
 * install front-end deps ```$ bower install```
 * apply database migrations ```$ ./phinx migrate```
+* run database seeds (for dev) ```$ ./phinx seed:run```
 * start PHP embedded server ```$ ./scripts/run.sh```
 * open in browser: http://localhost:8000
 

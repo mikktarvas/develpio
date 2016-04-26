@@ -4,8 +4,8 @@ $(document).ready(function () {
     var exhausted = false;
     var offset = 0;
     var $parent = $(".question-list");
-    
-    //TODO: extract optional tag name from meta header
+
+    var tag = $("meta[name='filter_by_tag']").attr("content");
 
     var formatDate = function (date) {
         var day = date.getDate();
@@ -26,7 +26,7 @@ $(document).ready(function () {
                     "</div>" +
                     "<div class=\"row\">" +
                     "   <div class=\"col-sm-8 tags\"></div>" +
-                    "   <div class=\"col-sm-4 text-right asker\"><a href=\"javascript:void(0);\"></a>@<span class=\"date\"></span</div>" +
+                    "   <div class=\"col-sm-4 text-right asker\"><a href=\"javascript:void(0);\"></a><br/><span class=\"date\"></span</div>" +
                     "</div>" +
                     "<div class=\"row\">" +
                     "   <div class=\"col-xs-12\"><hr/></div>" +
@@ -38,8 +38,8 @@ $(document).ready(function () {
             $row.find(".date").text(date);
             var $tags = $row.find(".tags");
             question.tags.forEach(function (tag) {
-                var $tag = $("<span class=\"label label-default\"></span>");
-                $tag.text(tag);
+                var $tag = $("<span class=\"label label-default tag\"><a></a></span>");
+                $tag.find("a").text(tag).attr("href", "/tags/" + encodeURIComponent(tag));
                 $tags.append($tag);
                 $tags.append("&nbsp;");
             });
@@ -53,11 +53,17 @@ $(document).ready(function () {
 
     var loadMore = function () {
         if (!loading && !exhausted) {
+            $("#loader").stop(true, true).fadeIn(150);
             loading = true;
 
-            loadQuestions({offset: offset}, function (questions) {
+            var options = {offset: offset};
+            if (tag) {
+                options.tag = tag;
+            }
+            loadQuestions(options, function (questions) {
                 offset++;
                 loading = false;
+                $("#loader").stop(true, true).fadeOut(150);
                 if (questions.length === 0) {
                     exhausted = true;
                     return;
@@ -71,13 +77,14 @@ $(document).ready(function () {
             }, function () {
                 console.error(arguments);
                 loading = false;
+                $("#loader").stop(true, true).fadeOut(150);
             });
 
         }
     };
     loadMore();
 
-    var onBottom = _.throttle(loadMore, 2000);
+    var onBottom = _.throttle(loadMore, 1000);
 
     $(window).scroll(function () {
         if ($(window).scrollTop() + $(window).height() == $(document).height()) {

@@ -19,7 +19,7 @@ function loadQuestions(options, success, fail) {
     var tag = options.tag || null;
     var url = "/api/questions/" + offset;
     if (tag !== null) {
-        url = url + "/" + tag;
+        url = url + "/" + encodeURIComponent(tag);
     }
 
     $.ajax({
